@@ -1,4 +1,4 @@
-name: Deploy to Linux via SSH
+name: Deploy to Linux
 
 on:
   push:
