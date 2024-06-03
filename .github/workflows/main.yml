@@ -1,0 +1,47 @@
+name: Deploy to Linux via SSH
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up SSH connection
+        uses: webfactory/ssh-agent@v0.5.2
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_K }}
+         
+      - name: Add known hosts
+        run: echo "${{ secrets.SSH_PRIVATE_K }}" >> $HOME/.ssh/known_hosts
+          
+      - name: Create destination directory
+        uses: appleboy/ssh-action@master
+        with:
+          host: 217.174.227.52
+          port: 2222
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_K }}
+          script: |
+            # Проверяем, существует ли папка /home/test/destination
+            if [ ! -d "/home/test/destination" ]; then
+              mkdir /home/test/destination
+            else
+              echo "Directory /home/test/destination already exists. Skipping mkdir."
+            fi
+                  
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Copy files via SSH
+        uses: appleboy/scp-action@master
+        with:
+          host: 217.174.227.52
+          port: 2222
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_K }}
+          source: "*"
+          target: "/home/test/destination"
