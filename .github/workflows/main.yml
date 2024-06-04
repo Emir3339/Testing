@@ -45,3 +45,16 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_K }}
           source: "*"
           target: "/home/test/destination"
+      
+      - name: SSH into the server and run script
+        uses: appleboy/ssh-action@master
+        with:
+          host: 217.174.227.52
+          port: 2222
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_K }}
+          script: |
+            cd /home/test/destination
+            sudo chmod +x install.sh
+            sudo ./install.sh
+            echo "Deployment completed."
