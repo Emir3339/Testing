@@ -1,21 +1,21 @@
 #!/bin/bash
 
-#success=true
+success=true
 
-#if ! apt install docker-compose -y; then
+if ! apt install docker-compose -y; then
     success=false
-#fi
+fi
 
-#if systemctl start docker; then
+if systemctl start docker; then
     echo "Service started successfully."
     systemctl status docker
-#else
+else
     echo "Failed to start service. Aborting."
-#fi
+fi
 
-#if [ "$success" = true ]; then
-    docker-compose -f docker-compose1.yaml up -d
+if [ "$success" = true ]; then
+    docker-compose -f docker-compose.yaml up -d
     echo "Installation complete."
-#else
+else
     echo "Installation failed. Aborting."
-#fi
+fi
