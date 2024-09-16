@@ -2,19 +2,22 @@
 
 success=true
 
-if ! apt install docker-compose -y; then
+# Установка docker-compose с использованием sudo
+if ! sudo apt install docker-compose -y; then
     success=false
 fi
 
-if systemctl start docker; then
+# Запуск сервиса Docker с использованием sudo
+if sudo systemctl start docker; then
     echo "Service started successfully."
-    systemctl status docker
+    sudo systemctl status docker
 else
     echo "Failed to start service. Aborting."
 fi
 
+# Если установка прошла успешно, запускаем docker-compose
 if [ "$success" = true ]; then
-    docker-compose -f docker-compose.yaml up -d
+    sudo docker-compose -f docker-compose.yaml up -d
     echo "Installation complete."
 else
     echo "Installation failed. Aborting."
