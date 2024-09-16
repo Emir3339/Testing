@@ -17,7 +17,7 @@ fi
 
 # Если установка прошла успешно, запускаем docker-compose
 if [ "$success" = true ]; then
-    sudo docker-compose -f docker-compose.yaml up -d
+    sudo docker-compose -f /home/test/destination/docker-compose.yaml up -d
     echo "Installation complete."
 else
     echo "Installation failed. Aborting."
